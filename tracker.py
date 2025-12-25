@@ -5,13 +5,22 @@ import os
 # 1. Add an Expense(Amount + Category)
 # This is the write(output) function
 # Example: add_expense(20.50, "Food")
-def add_expense(amount, category):
-    file_exists = os.path.isfile('expenses.csv')
+def add_expense(amount: float, category: str, filename='expenses.csv') -> None:
+    """
+    Appends an Expense to the CSV file (Amount + Category).
+    Creates a data file called expenses.csv with headers if it doesn't
+    exist already.
 
-    with open('expenses.csv', mode='a', newline='') as csvfile:
+    parameters:
+    amount (float): The value of the expense.
+    category (str): The category of the expense (e.g. 'Food').
+    """
+    file_exists = os.path.isfile(filename)
+
+    with open(filename, mode='a', newline='') as csvfile:
         writer = csv.writer(csvfile)
 
-        if not file_exists or os.path.getsize('expenses.csv') == 0:
+        if not file_exists or os.path.getsize(filename) == 0:
             writer.writerow(['Amount', 'Category'])
 
         writer.writerow([amount, category])
@@ -24,6 +33,10 @@ def add_expense(amount, category):
 # 2. View All Expenses
 # This is the read(input) function
 def view_expenses():
+    """
+    Prints all the expenses in the CSV file.
+    If the csv file doesn't exist or is empty, it will exit.
+    """
     if not os.path.isfile('expenses.csv') or os.path.getsize('expenses.csv') == 0:
         print('\nNo expenses found!')
         return
@@ -46,6 +59,11 @@ def view_expenses():
 
 # 3. Calculate Total Spending
 def total_expenses():
+    """
+    Iterates over all amount + category combos in the CSV file and prints
+    the total amount of the expenses.
+    If the csv file doesn't exist or is empty, it will exit.
+    """
     if not os.path.isfile('expenses.csv') or os.path.getsize('expenses.csv') == 0:
         print('\nNo expenses found!')
         return
@@ -65,6 +83,11 @@ def total_expenses():
 
 # 4. Filter by Category
 def filter_by_category():
+    """
+    Filters expenses in the CSV file based on the category searched by the
+    user and prints only the expenses for the category.
+    If the csv file doesn't exist or is empty, it will exit.
+    """
     if not os.path.isfile('expenses.csv') or os.path.getsize('expenses.csv') == 0:
         print('\nNo expenses found!')
         return
